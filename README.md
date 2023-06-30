@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# mesto-react
+Код представляет собой React-приложение, которое состоит из нескольких компонентов для создания интерфейса веб-страницы. Основной компонент App содержит разметку страницы и управляет состоянием открытия/закрытия попапов и выбранной карточки. Компоненты Header, Main, и Footer отображают верхнюю, главную и нижнюю части страницы соответственно. Компонент PopupWithForm представляет собой попап с формой, а ImagePopup - попап для просмотра увеличенного изображения. Компонент Card отображает отдельную карточку места.
+Основные компоненты
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    App: Главный компонент приложения. Отображает основную разметку страницы и управляет состоянием попапов и выбранной карточки.
+    Header: Отображает верхнюю часть страницы.
+    Main: Отображает главную часть страницы с профилем пользователя и карточками мест.
+    Footer: Отображает нижнюю часть страницы.
+    PopupWithForm: Попап с формой для редактирования профиля, добавления нового места и обновления аватара.
+    ImagePopup: Попап для просмотра увеличенного изображения.
+    Card: Отображает отдельную карточку места.
 
-## Available Scripts
+Вспомогательные модули
 
-In the project directory, you can run:
+    Api: Модуль для работы с сервером и получения данных.
 
-### `npm start`
+Состояние и обработчики
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    isEditProfilePopupOpen: состояние открытия/закрытия попапа редактирования профиля.
+    isAddPlacePopupOpen: состояние открытия/закрытия попапа добавления нового места.
+    isEditAvatarPopupOpen: состояние открытия/закрытия попапа обновления аватара.
+    isImagePopupOpen: состояние открытия/закрытия попапа просмотра увеличенного изображения.
+    selectedCard: выбранная карточка.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Обработчики событий:
 
-### `npm test`
+    handleEditProfileClick(): обработчик клика для открытия попапа редактирования профиля.
+    handleAddPlaceClick(): обработчик клика для открытия попапа добавления нового места.
+    handleEditAvatarClick(): обработчик клика для открытия попапа обновления аватара.
+    handleCardClick(card): обработчик клика по карточке для открытия попапа просмотра увеличенного изображения.
+    handleCloseAllPopup(): обработчик для закрытия всех попапов и сброса выбранной карточки.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Компонент Card
 
-### `npm run build`
+Компонент Card отображает отдельную карточку места. Принимает следующие свойства:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    card: объект с информацией о карточке (id, ссылка на изображение, название и количество лайков).
+    onCardClick: функция-обработчик клика по карточке.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Компонент Footer
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Компонент Footer отображает нижнюю часть страницы и содержит информацию о копирайте.
+Компонент Header
 
-### `npm run eject`
+Компонент Header отображает верхнюю часть страницы и содержит логотип.
+Компонент ImagePopup
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Компонент ImagePopup отображает попап для просмотра увеличенного изображения. Принимает следующие свойства:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    isOpen: состояние открытия/закрытия попапа.
+    onClose: функция-обработчик закрытия попапа.
+    card: объект с информацией о карточке, изображение которой нужно увеличить.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Компонент Main
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Компонент Main отображает главную часть страницы, включающую профиль пользователя и карточки мест. Принимает следующие свойства:
 
-## Learn More
+    onEditProfile: функция-обработчик клика для открытия попапа редактирования профиля.
+    onAddPlace: функция-обработчик клика для открытия попапа добавления нового места.
+    onEditAvatar: функция-обработчик клика для открытия попапа обновления аватара.
+    onCardClick: функция-обработчик клика по карточке для открытия попапа просмотра увеличенного изображения.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Компонент PopupWithForm
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Компонент PopupWithForm отображает попап с формой. Принимает следующие свойства:
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    title: заголовок попапа.
+    name: имя попапа.
+    isOpen: состояние открытия/закрытия попапа.
+    onClose: функция-обработчик закрытия попапа.
+    children: содержимое попапа (элементы формы).
