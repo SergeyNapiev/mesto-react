@@ -16,6 +16,26 @@ function App() {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState('');
+    const [cards, setCards] = React.useState([]);
+    
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch((err) => console.log(`Ошибка обновления лайка: ${err}`));;
+    } 
+
+    function handleCardDelete(card) {
+        api.removeCardFromServer(card._id)
+        .then(() => {
+          setCards((state) => state.filter((c) => c._id !== card._id));
+        })
+        .catch((err) => console.log(`Ошибка удаления карточки: ${err}`));
+    }
 
     React.useEffect(() => {
         api.getUserInfo()
@@ -26,6 +46,16 @@ function App() {
                 console.log('Ошибка при получении данных пользователя:', error);
             });
     }, []);
+    
+    React.useEffect(() => {
+        api.getInitialCards()
+          .then((cardsData) => {
+            setCards(cardsData);
+          })
+          .catch((error) => {
+            console.log('Ошибка при получении данных карточек:', error);
+          });
+      }, []);
 
     const handleEditProfileClick = () => {
         setIsEditProfilePopupOpen(true);
@@ -50,8 +80,6 @@ function App() {
         setSelectedCard(null);
     };
 
-    
-
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="App">
@@ -63,6 +91,9 @@ function App() {
                         onAddPlace={handleAddPlaceClick}
                         onEditAvatar={handleEditAvatarClick}
                         onCardClick={handleCardClick}
+                        onCardLike={handleCardLike}
+                        cards={cards}
+                        onCardDelete={handleCardDelete}
                         />
                         <Footer />
                         <PopupWithForm title="Редактировать профиль" name="edit" value="Сохранить" isOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopup}>

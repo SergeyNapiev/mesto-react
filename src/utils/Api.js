@@ -63,41 +63,60 @@ class Api {
       });
     };
 
-    // // поставить лайк
-    likeCard(cardId) {
-      return fetch(`${this._server}/cards/${cardId}/likes`, {
-          method: 'PUT',
-          headers: {
-            authorization: this._headers,
-            'Content-Type': 'application/json'
-          },
-      }).then(res => {
-        if (res.ok) {
-          return res.json();
-        }
+  //   // // поставить лайк
+  //   likeCard(cardId) {
+  //     return fetch(`${this._server}/cards/${cardId}/likes`, {
+  //         method: 'PUT',
+  //         headers: {
+  //           authorization: this._headers,
+  //           'Content-Type': 'application/json'
+  //         },
+  //     }).then(res => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+
+  //     // если ошибка, отклоняем промис
+  //       return Promise.reject(`Ошибка: ${res.status}`);
+  //     });
+  //   };
+
+  // // удалить лайк
+  // deleteLikeCard(cardId) {
+  //     return fetch(`${this._server}/cards/${cardId}/likes`, {
+  //         method: 'DELETE',
+  //         headers: {
+  //           authorization: this._headers,
+  //           'Content-Type': 'application/json'
+  //         },
+  //     }).then(res => {
+  //       if (res.ok) {
+  //         return res.json();
+  //       }
+
+  //     // если ошибка, отклоняем промис
+  //       return Promise.reject(`Ошибка: ${res.status}`);
+  //     });
+  //   };
+
+  changeLikeCardStatus(cardId, isLiked) {
+    const method = isLiked ? 'PUT' : 'DELETE';
+
+    return fetch(`${this._server}/cards/likes/${cardId}`, {
+      method: method,
+      headers: {
+        authorization: this._headers,
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
 
       // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-    };
-
-  // удалить лайк
-  deleteLikeCard(cardId) {
-      return fetch(`${this._server}/cards/${cardId}/likes`, {
-          method: 'DELETE',
-          headers: {
-            authorization: this._headers,
-            'Content-Type': 'application/json'
-          },
-      }).then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-      // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
-    };
+      return Promise.reject(`Ошибка: ${res.status}`);
+    });
+  }
     // профиль получаем данные
     getUserInfo() {
         return fetch(`${this._server}/users/me`, {
