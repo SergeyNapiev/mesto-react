@@ -5,6 +5,7 @@ import PopupWithForm from './PopupWithForm.js';
 function EditProfilePopup( { isOpen, onClose, onUpdateUser } ) {
     const [name, setName] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [isSaving, setIsSaving] = React.useState(false);
     // Подписка на контекст
     const currentUser = React.useContext(CurrentUserContext);
  
@@ -21,12 +22,13 @@ function EditProfilePopup( { isOpen, onClose, onUpdateUser } ) {
     function handleSubmit(e) {
         // Запрещаем браузеру переходить по адресу формы
         e.preventDefault();
-      
+        setIsSaving(true);
         // Передаём значения управляемых компонентов во внешний обработчик
         onUpdateUser({
           name,
           about: description,
-        });
+        })
+        .finally(() => setIsSaving(false));
       } 
  
       function handleNameChange(e) {
@@ -37,7 +39,7 @@ function EditProfilePopup( { isOpen, onClose, onUpdateUser } ) {
         setDescription(e.target.value);
       }
     return (
-        <PopupWithForm title="Редактировать профиль" name="edit" value="Сохранить" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+        <PopupWithForm title="Редактировать профиль" name="edit" value={isSaving ? 'Сохранение...' : 'Сохранить'} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
           <input type="text" id="name" name="name" placeholder="Имя" className="popup__input popup__input_text_name"
             minLength="2" maxLength="40" required value={name} onChange={handleNameChange} />
           <span className="popup__error" id="name-error"></span>

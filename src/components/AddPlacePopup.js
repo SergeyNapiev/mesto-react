@@ -4,6 +4,7 @@ import PopupWithForm from './PopupWithForm.js';
 function AddPlacePopup({ isOpen, onClose, onSubmit }) {
   const [name, setName] = React.useState('');
   const [link, setLink] = React.useState('');
+  const [isAdding, setIsAdnging] = React.useState(false);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -15,7 +16,9 @@ function AddPlacePopup({ isOpen, onClose, onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ name, link });
+    setIsAdnging(true);
+    onSubmit({ name, link })
+    .finally(() => setIsAdnging(false));
     setName('');
     setLink('');
   };
@@ -28,7 +31,7 @@ function AddPlacePopup({ isOpen, onClose, onSubmit }) {
   }, [isOpen]);
 
   return (
-    <PopupWithForm title="Новое место" name="add" value="Создать" isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
+    <PopupWithForm title="Новое место" name="add" value={isAdding ? 'Добавление...' : 'Создать'} isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
       <input type="text" className="popup__input" placeholder="Название" required minLength="2" maxLength="30" value={name} onChange={handleNameChange}/>
       <span className="popup__error" id="place-error"></span>
       <input type="url" className="popup__input" placeholder="Ссылка на картинку" required value={link} onChange={handleLinkChange}/>
