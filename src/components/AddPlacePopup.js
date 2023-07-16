@@ -19,8 +19,6 @@ function AddPlacePopup({ isOpen, onClose, onSubmit }) {
     setIsAdnging(true);
     onSubmit({ name, link })
     .finally(() => setIsAdnging(false));
-    setName('');
-    setLink('');
   };
 
   React.useEffect(() => {

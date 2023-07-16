@@ -12,14 +12,7 @@ class Api {
               authorization: this._headers
         }
       })
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-    
-          // если ошибка, отклоняем промис
-          return Promise.reject(`Ошибка: ${res.status}`);
-        });
+      .then(this._checkResponse)
   } 
       // новая карточка
 
@@ -35,14 +28,7 @@ class Api {
                   link: item.link
                 })
             })
-            .then(res => {
-              if (res.ok) {
-                return res.json();
-              }
-        
-              // если ошибка, отклоняем промис
-              return Promise.reject(`Ошибка: ${res.status}`);
-            });
+            .then(this._checkResponse)
       }
   // удалить карточку
   removeCardFromServer(id) {
@@ -53,51 +39,9 @@ class Api {
           'Content-Type': 'application/json'
       },
     })
-    .then(res => {
-      if (res.ok) {
-        return res.json();
-      }
-
-    // если ошибка, отклоняем промис
-      return Promise.reject(`Ошибка: ${res.status}`);
-    });
+    .then(this._checkResponse)
   };
 
-//   // // поставить лайк
-//   likeCard(cardId) {
-//     return fetch(`${this._server}/cards/${cardId}/likes`, {
-//         method: 'PUT',
-//         headers: {
-//           authorization: this._headers,
-//           'Content-Type': 'application/json'
-//         },
-//     }).then(res => {
-//       if (res.ok) {
-//         return res.json();
-//       }
-
-//     // если ошибка, отклоняем промис
-//       return Promise.reject(`Ошибка: ${res.status}`);
-//     });
-//   };
-
-// // удалить лайк
-// deleteLikeCard(cardId) {
-//     return fetch(`${this._server}/cards/${cardId}/likes`, {
-//         method: 'DELETE',
-//         headers: {
-//           authorization: this._headers,
-//           'Content-Type': 'application/json'
-//         },
-//     }).then(res => {
-//       if (res.ok) {
-//         return res.json();
-//       }
-
-//     // если ошибка, отклоняем промис
-//       return Promise.reject(`Ошибка: ${res.status}`);
-//     });
-//   };
 
 changeLikeCardStatus(cardId, isLiked) {
   const method = isLiked ? 'PUT' : 'DELETE';
@@ -108,14 +52,8 @@ changeLikeCardStatus(cardId, isLiked) {
       authorization: this._headers,
       'Content-Type': 'application/json',
     },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-
-    // если ошибка, отклоняем промис
-    return Promise.reject(`Ошибка: ${res.status}`);
-  });
+  })
+  .then(this._checkResponse)
 }
   // профиль получаем данные
   getUserInfo() {
@@ -125,14 +63,7 @@ changeLikeCardStatus(cardId, isLiked) {
             authorization: this._headers,
           }
         })
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-    
-          // если ошибка, отклоняем промис
-          return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(this._checkResponse)
   }
   // профиль изменить данные
   setUserInfo(item) {
@@ -147,14 +78,7 @@ changeLikeCardStatus(cardId, isLiked) {
               about: item.about
             })
         })
-        .then(res => {
-          if (res.ok) {
-            return res.json();
-          }
-    
-          // если ошибка, отклоняем промис
-          return Promise.reject(`Ошибка: ${res.status}`);
-        });
+        .then(this._checkResponse)
   }
 
   // установить аватар
@@ -169,16 +93,19 @@ changeLikeCardStatus(cardId, isLiked) {
             avatar: item.avatar
           })
       })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-  
-        // если ошибка, отклоняем промис
-        return Promise.reject(`Ошибка: ${res.status}`);
-      });
+      .then(this._checkResponse)
   }
+
+  _checkResponse(res) {
+      if (res.ok) {
+        return res.json();
+    }
+    return Promise.reject(`Ошибка ${res.status}`);
+  }
+
 }
+
+
 
 const api = new Api(
   'https://mesto.nomoreparties.co/v1/cohort-66',
